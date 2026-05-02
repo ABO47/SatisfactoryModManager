@@ -128,7 +128,7 @@ func main() {
 	}
 
 	startUpdateFound := false
-	if settings.Settings.UpdateCheckMode == settings.UpdateOnLaunch {
+	if settings.Settings.UpdateCheckMode == settings.UpdateOnLaunch && autoupdate.Updater != nil && autoupdate.Updater.Updater != nil {
 		foundOrError := make(chan bool)
 		autoupdate.Updater.Updater.UpdateFound.Once(func(_ updater.PendingUpdate) {
 			foundOrError <- true
