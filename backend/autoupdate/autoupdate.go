@@ -32,9 +32,16 @@ func Init() {
 	if Updater != nil {
 		return
 	}
+	
+	// If auto-update is disabled, don't initialize anything
+	if !shouldUseUpdater() {
+		slog.Info("auto-update is disabled")
+		return
+	}
+	
 	Updater = &autoUpdate{
 		Updater: updater.MakeUpdater(makeUpdaterConfig()),
-		enabled: shouldUseUpdater(),
+		enabled: true,
 	}
 	Updater.Updater.UpdateFound.On(func(update updater.PendingUpdate) {
 		slog.Info("update found", slog.Any("version", update.Version))
