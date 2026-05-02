@@ -6,6 +6,7 @@ import { GetOffline, SetOffline } from '$wailsjs/go/ficsitcli/ficsitCLI';
 import { settings } from '$wailsjs/go/models';
 import {
   GetCacheDir,
+  GetCustomGamePaths,
   GetDebug,
   GetIgnoredUpdates,
   GetKonami,
@@ -18,6 +19,8 @@ import {
   GetStartView,
   GetUpdateCheckMode,
   GetViewedAnnouncements,
+  AddCustomGamePath,
+  RemoveCustomGamePath,
   SetCacheDir,
   SetDebug,
   SetKonami,
@@ -63,3 +66,8 @@ export const version = binding<string>('0.0.0', { initialGet: GetVersion });
 export const debug = bindingTwoWayNoExcept<boolean>(false, { initialGet: GetDebug }, { updateFunction: SetDebug });
 
 export const language = bindingTwoWayNoExcept<string>('en', { initialGet: () => GetLanguage().then((l) => l ? l : 'en'), allowNull: false }, { updateFunction: SetLanguage });
+
+export const customGamePaths = binding<string[]>([], { initialGet: GetCustomGamePaths, updateEvent: 'customGamePaths' });
+
+export const addCustomGamePath = AddCustomGamePath;
+export const removeCustomGamePath = RemoveCustomGamePath;

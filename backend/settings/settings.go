@@ -77,6 +77,8 @@ type settings struct {
 	Debug bool `json:"debug,omitempty"`
 
 	NewUserSetupComplete bool `json:"newUserSetupComplete,omitempty"`
+
+	CustomGamePaths []string `json:"customGamePaths,omitempty"`
 }
 
 var Settings = &settings{
@@ -111,6 +113,8 @@ var Settings = &settings{
 	Debug: false,
 
 	NewUserSetupComplete: false,
+
+	CustomGamePaths: []string{},
 }
 
 func (s *settings) GetRestoreWindowPosition() bool {
@@ -342,6 +346,46 @@ func (s *settings) SetCacheDir(dir string) error {
 
 func (s *settings) GetCacheDir() string {
 	return viper.GetString("cache-dir")
+}
+
+func (s *settings) GetCustomGamePaths() []string {
+	return s.CustomGamePaths
+}
+
+func (s *settings) AddCustomGamePath(path string) error {
+	// Check for duplicates
+	for _, p := range s.CustomGamePaths {
+		if p == path {
+			return nil // Already exists
+		}
+	}
+	s.CustomGamePaths = append(s.CustomGamePaths, path)
+	err := SaveSettings()
+	if err != nil {
+		return err
+	}
+	wailsRuntime.EventsEmit(common.AppContext, "customGamePaths", s.CustomGamePaths)
+	return nil
+}
+
+func (s *settings) RemoveCustomGamePath(path string) error {
+	idx := -1
+	for i, p := range s.CustomGamePaths {
+		if p == path {
+			idx = i
+			break
+		}
+	}
+	if idx == -1 {
+		return nil // Not found, nothing to remove
+	}
+	s.CustomGamePaths = append(s.CustomGamePaths[:idx], s.CustomGamePaths[idx+1:]...)
+	err := SaveSettings()
+	if err != nil {
+		return err
+	}
+	wailsRuntime.EventsEmit(common.AppContext, "customGamePaths", s.CustomGamePaths)
+	return nil
 }
 
 func ValidateCacheDir(dir string) error {
