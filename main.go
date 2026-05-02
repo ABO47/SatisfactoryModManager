@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"strings"
 	"sync"
 	"time"
 
@@ -267,6 +268,13 @@ func init() {
 	viper.Set("commit", commit)
 	viper.Set("date", date)
 	viper.Set("update-mode", updateMode)
+	
+	disableAutoUpdate := runtime.GOOS == "windows"
+	if !disableAutoUpdate {
+		disableAutoUpdateEnv := os.Getenv("SMM_DISABLE_AUTO_UPDATE")
+		disableAutoUpdate = strings.EqualFold(disableAutoUpdateEnv, "1") || strings.EqualFold(disableAutoUpdateEnv, "true")
+	}
+	viper.Set("disable-auto-update", disableAutoUpdate)
 
 	var baseLocalDir string
 

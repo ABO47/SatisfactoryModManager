@@ -18,6 +18,9 @@ func registerUpdateType(updateMode string, updateType func() UpdateType) {
 }
 
 func shouldUseUpdater() bool {
+	if viper.GetBool("disable-auto-update") {
+		return false
+	}
 	return viper.Get("update-mode") != "none"
 }
 
