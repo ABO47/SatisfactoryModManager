@@ -45,7 +45,6 @@ var (
 	version = "dev"
 	commit  = "unknown"
 	date    = "unknown"
-
 	updateMode = "none"
 )
 

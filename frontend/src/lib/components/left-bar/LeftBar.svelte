@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { mdiAlert, mdiCheckCircle, mdiCloseCircle, mdiDownload, mdiFolderOpen, mdiHelp, mdiHelpCircle, mdiLoading, mdiMonitor, mdiPencil, mdiPlusCircle, mdiServer, mdiServerNetwork, mdiTrashCan, mdiUpload, mdiWeb } from '@mdi/js';
+  import { mdiAlert, mdiCheckCircle, mdiCloseCircle, mdiDownload, mdiFolderEdit, mdiFolderOpen, mdiHelp, mdiHelpCircle, mdiLoading, mdiMonitor, mdiPencil, mdiPlusCircle, mdiServer, mdiServerNetwork, mdiTrashCan, mdiUpload, mdiWeb } from '@mdi/js';
   import _ from 'lodash';
   import { siDiscord, siGithub } from 'simple-icons/icons';
 
@@ -384,6 +384,16 @@
       <span class="pl-4 sticky top-0 z-[1] bg-surface-50-900-token">
         <T defaultValue="Other" keyName="left-bar.other"/>
       </span>
+      <button
+        class="btn px-4 h-8 w-full text-sm bg-surface-200-700-token"
+        on:click={() => modalStore.trigger({ type: 'component', component: 'customGamePaths' })}>
+        <Marquee class="flex-auto text-start">
+          <T defaultValue="Manage Custom Game Locations" keyName="left-bar.manage-custom-game-locations"/>
+        </Marquee>
+        <SvgIcon
+          class="h-5 w-5"
+          icon={mdiFolderEdit} />
+      </button>
       <button
         class="btn px-4 h-8 w-full text-sm bg-surface-200-700-token"
         on:click={() => modalStore.trigger({ type: 'component', component: 'serverManager' })}>
