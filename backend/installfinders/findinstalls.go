@@ -49,7 +49,7 @@ func findCustomInstallations(paths []string) ([]*common.Installation, []error) {
 			Version:  version,
 			Type:     installType,
 			Location: common.LocationTypeLocal,
-			Branch:   common.GameBranchStable,
+			Branch:   common.BranchStable,
 			Launcher: "Custom",
 			SavedPath: savedPath,
 		}
